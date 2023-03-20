@@ -2,6 +2,7 @@
 const grocerySubmit = document.querySelector('#addGrocery');
 const list = document.querySelector('#list');
 const clearBtn = document.querySelector('#clear-btn');
+// Redux setup
 // Default state value
 const initialState = {
     groceries: []
@@ -22,3 +23,26 @@ const groceryReducer = (state=initialState.groceries, action) => {
             return state
     };
 };
+// Store
+let store = Redux.createStore(groceryReducer);
+// Function to clear grocery list
+const clearList = () => {
+    document.querySelector('#newItem').value = '';
+    store.dispatch({
+        type: 'grocery/clear'
+    });
+    console.log(store.getState());
+};
+// Function to add new item to grocery list
+const newGrocery = (e) => {
+    e.preventDefault();
+    let groceryText = document.querySelector('#newItem').value;
+    store.dispatch({
+        type: 'grocery/add',
+        text: groceryText
+    });
+    console.log(store.getState());
+};
+// EventListeners
+grocerySubmit.addEventListener('click', (e) => newGrocery(e));
+clearBtn.addEventListener('click', clearList);
