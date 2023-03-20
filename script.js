@@ -42,7 +42,29 @@ const newGrocery = (e) => {
         text: groceryText
     });
     console.log(store.getState());
+    document.querySelector('#newItem').value = '';
 };
+// Function to render list from state
+const renderList = (state) => {
+    while(list.firstChild) {
+        list.removeChild(list.firstChild);
+    };
+    state.forEach((item) => {
+        // Generate list item for list
+        let li = document.createElement('li');
+        // Append li to dom list element
+        list.appendChild(li);
+        // Populate with text content
+        li.textContent = item.text
+
+    });
+};
+// Function to render items to dom
+const render = () => {
+    const state = store.getState();
+    renderList(state);
+};
+store.subscribe(render);
 // EventListeners
 grocerySubmit.addEventListener('click', (e) => newGrocery(e));
 clearBtn.addEventListener('click', clearList);
